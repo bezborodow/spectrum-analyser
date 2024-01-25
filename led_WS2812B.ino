@@ -3,6 +3,8 @@
 #define LED_COUNT 256
 Adafruit_NeoPixel strip(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 
+int c = 0;
+
 void setup() {
   strip.begin();
   strip.show();
@@ -13,33 +15,23 @@ void setup() {
 }
 
 void loop() {
-  int c = 0;
+  if (Serial.available()) {
+    c = Serial.read();
+    Serial.println(c, DEC);
 
-
-  if (Serial.available() > 0) {
-    // read the incoming byte:
-    //c = Serial.read();
-    String message = Serial.readString();
-    Serial.print(message);
-
-    if (message == "on\n") {
+    if (c == '1') {
+      strip.setPixelColor(0, strip.Color(255, 255, 255));
       strip.show();
     }
-    if (c == 'o') {
+    if (c == '0') {
       strip.setPixelColor(0, strip.Color(0, 0, 0));
-      strip.setPixelColor(7, strip.Color(0, 255, 0));
       strip.show();
     }
   }
-
-  strip.setPixelColor(0, strip.Color(255, 255, 255));
-  strip.setPixelColor(1, strip.Color(0, 255, 255));
-  strip.setPixelColor(2, strip.Color(255, 0, 0));
-  strip.setPixelColor(3, strip.Color(255, 255, 0));
-  strip.setPixelColor(4, strip.Color(0, 255, 0));
-  strip.setPixelColor(5, strip.Color(0, 0, 255));
-  strip.setPixelColor(6, strip.Color(255, 0, 255));
 }
+
+
+
 
 void idle() {
   int n = strip.numPixels();
