@@ -30,7 +30,7 @@ while not ser.read_until().decode().strip() == 'Listening.':
     pass
 print("Connected.")
 
-ser.write("1\n".encode())
+ser.write("I\n".encode())
 
 while True:
     ser.flush()
@@ -48,7 +48,9 @@ while True:
     bands = np.array_split(fourier[:N//2], 32)
     bands = np.max(bands, 1)
     banks = np.clip(bands, 0, 8)
-    bands = np.round(bands / (1600 / 8)).astype(int)
+    scale = (1600 / 8)
+    scale = (800 / 8)
+    bands = np.round(bands / scale).astype(int)
     graph = ''.join(np.asarray(bands.astype(str)))
     print(graph)
     ser.write(f"G {graph}\n".encode())
