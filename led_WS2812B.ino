@@ -7,10 +7,15 @@ int c = 0;
 
 void setup() {
   strip.begin();
-  strip.show();
   strip.setBrightness(1);
-
-  Serial.begin(115200);
+  strip.setPixelColor(1, strip.Color(255, 0, 0));
+  strip.show();
+  delay(100);
+  
+  strip.setPixelColor(1, strip.Color(0, 255, 0));
+  strip.show();
+  
+  Serial.begin(9600);
   Serial.write("Listening.\n");
 }
 
